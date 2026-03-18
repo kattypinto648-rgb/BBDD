@@ -1,0 +1,8 @@
+drop DATABASE if exists tienda;
+create database tienda;
+use tienda;
+create table provincias(id_provincia int auto_increment primary key, nombre_provincia varchar(100) not null);
+create table ciudades(id_ciudad int auto_increment primary key, nombre_ciudad varchar(100) not null, id_provincia int, foreign key (id_provincia) references provincias(id_provincia));
+create table clientes(id_cliente int AUTO_INCREMENT primary key, nombre varchar(100) not null,apellido varchar(100)not null, email varchar (100)not null, telefono varchar (20)not null,direccion varchar(100)not null, id_ciudad int, foreign key (id_ciudad) references ciudades(id_ciudad));
+create table productos(id_producto int AUTO_INCREMENT PRIMARY KEY, nombre_producto varchar(100) not null, precio decimal(10,2) not null, stock int not null);
+create table compras(id_compra int AUTO_INCREMENT PRIMARY KEY, fecha_compra date not null, total decimal(10,2), id_cliente int, foreign key (id_cliente) references clientes(id_cliente));

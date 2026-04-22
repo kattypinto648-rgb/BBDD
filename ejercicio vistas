@@ -1,0 +1,10 @@
+1. create view clientes_oriundo as select c.id_cliente, c.nombre, ci.nombre as ciudad from clientes c join ciudades ci on c.id_ciudad = ci.id_ciudad;
+2. select * from clientes_oriundo where ciudad = 'Santa Fe';
+3. create view ciudades_provincias as select ci.nombre as ciudad, p.nombre as provincia from ciudades ci join provincias p on ci.id_provincia = p.id_provincia;
+4. create view provincias_mas_ciudades as select p.nombre as provincia, count(ci.id_ciudad) as cantidad_ciudades from provincias p join ciudades ci on p.id_provincia = ci.id_provincia group by p.nombre having count(ci.id_ciudad) > 1;
+5. create view productos_sin_stock as select * from productos where stock = 0;
+6. select * from productos_sin_stock where precio = (select max(precio) from productos_sin_stock or precio = (select min(precio) from productos_sin_stock);
+7. create view clientes_compra as select distinct c.id_cliente, c.nombre from clientes c join ventas v on c.id_cliente = v.id_cliente;
+8. create or replace view clientes_compra as select c.id_cliente, c.nombre, sum(dv.cantidad) as total_productos from clientes c join ventas v on c.id_cliente = v.id_cliente join detalle_ventas dv on v.id_venta = dv.id_venta group by c.id_cliente, c.nombre;
+9. create or replace view clientes_compra as select  c.id_cliente, c.nombre, sum(dv.cantidad) as total_productos, sum(dv.cantidad * dv.precio_unitario) as total_gastado from clientes c join ventas v ON c.id_cliente = v.id_cliente join detalle_ventas dv on v.id_venta = dv.id_venta group by c.id_cliente, c.nombre;
+10. create view productos_no_comprados as select p.* from productos p left join detalle_ventas dv on p.id_producto = dv.id_producto where dv.id_producto is null;

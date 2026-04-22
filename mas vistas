@@ -1,0 +1,8 @@
+1. select c.id_, c.nombre, sum(co.cantidad * co.precio) as total_gastado from clientes c join compras co on c.id=co.id_cliente group by c.id, c.nombre order by total_gastado desc;
+2. create view clientes_premium as select c.id, c.nombre, sum(co.cantidad * co.precio) as total_gastado from clientes c join compras co on c.id=co.id_cliente group by c.id, c.nombre having sum(co.cantidad * co.precio) > (select avg(total) from(select sum (cantidad* precio) as total from compras group by id_cliente)totales_clientes);
+3. create view productos_mas_vendidos as select p.id, p.nombre, sum(co.cantidad) as total_vendido from productos p join compras co on p.id=id_producto group by p.id, p.nombre order by total_vendido desc;
+4. select c.id, c.nombre from clientes c where not exists (select p.id from productos p where not exists (select 1 from compras co where co.id_cliente=c.id and co.id_producto=p.id));
+5. select c.nombre, poblacion from ciudades where poblcacion>(select avg(poblacion) from ciudades);
+6. create view compras_por_cliente as select c.id, c.nombre, sum(co.cantidad * co.precio) as total_gastado from clientes c join compras co on c.id=co.id_cliente group by c.id, c.nombre;
+7. select c.id, c.nombre from cleintes c join compras co on c.id=co.id_cliente join productos p on co.id_producto=p.id group by c.id, c.nombre having count(distinct p.marca)>2;
+8. create view resumen_regiones as select r.id, r.nombre, sum(p.poblacion) as poblacion_total, count(p.id) as cantidad_provincias, avg(p.poblacion) as promedio_poblacion from regiones r join provincias p on r.id=p.id_region group by r.id, r.nombre;
